@@ -7,12 +7,12 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+
     public Camera playerCamera;
     private Vector3 crouchPosition = new Vector3(0, .29f, .101f);
     [SerializeField] public Rigidbody rb;
     [SerializeField] public float walkSpeed = 5f;
     [SerializeField] public float runSpeed = 10f;
-    [SerializeField] public float jumpPower = 7f;
     [SerializeField] public float gravityStrength = 10f;
     [SerializeField] private float currentSpeed = 5f;
     [SerializeField] private float tiredSpeed = 2.5f;
@@ -34,10 +34,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Image staminaBar;
     [SerializeField] private CanvasGroup staminaBarCanvas;
 
+    [Header("Sound Effects")]
+    [SerializeField] private AudioSource playerSFXSource;
+    [SerializeField] private AudioClip footstepSFX;
+
     [SerializeField] public float lookSens = 2f;
     public float lookXLimit = 45f;
 
-    [SerializeField]Vector3 moveDirection = Vector3.zero;
+    [SerializeField] Vector3 moveDirection = Vector3.zero;
     Vector3 forward;
     Vector3 right;
     float rotationX = 0f;
@@ -81,7 +85,7 @@ public class PlayerController : MonoBehaviour
         // as well as when moveDirection vector3, does not equal (0,0,0), stamina will drain
         else if (currentSpeed == 10f && playerCurrentStamina >= 0 && moveDirection != Vector3.zero)
         {
-             StartStaminaDrain();
+            StartStaminaDrain();
         }
 
         if (playerCurrentStamina <= 0)
@@ -92,7 +96,7 @@ public class PlayerController : MonoBehaviour
             staminaBarCanvas.alpha = 1.0f;
         }
 
-        if(playerCurrentStamina >= 50 && isTired)
+        if (playerCurrentStamina >= 50 && isTired)
         {
             isTired = false;
             currentSpeed = 5f;
@@ -118,7 +122,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if(isCrouched == true)
+        if (isCrouched == true)
         {
             Crouch();
             currentSpeed = crouchSpeed;
@@ -126,14 +130,14 @@ public class PlayerController : MonoBehaviour
         else
         {
             StandUp();
-            if(isRunning == true && isTired == false)
+            if (isRunning == true && isTired == false)
             {
                 currentSpeed = runSpeed;
             }
         }
-        
+
         // Resets everything to walking speed
-        if(isRunning == false && isCrouched == false && isTired == false)
+        if (isRunning == false && isCrouched == false && isTired == false)
         {
             currentSpeed = walkSpeed;
         }
@@ -142,7 +146,18 @@ public class PlayerController : MonoBehaviour
         float curSpeedY = currentSpeed * Input.GetAxis("Horizontal");
 
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-        moveDirection.y = characterController.velocity.y;
+        moveDirection.y = -2f;
+
+        bool isMoving = characterController.isGrounded && (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0);
+
+        if (isMoving)
+        {
+            PlayFootstepSound();
+        }
+        else
+        {
+            StopFootstepSound();
+        }
 
         characterController.Move(moveDirection * Time.deltaTime);
     }
@@ -159,8 +174,8 @@ public class PlayerController : MonoBehaviour
 
     private void Crouch()
     {
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
-            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+        transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+        rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
     }
 
     private void StandUp()
@@ -175,7 +190,7 @@ public class PlayerController : MonoBehaviour
     {
         playerCurrentStamina += staminaRegen * Time.deltaTime;
         // has stamina bar fade out
-        if(isTired == false)
+        if (isTired == false)
         {
             staminaBarCanvas.alpha -= 1f * Time.deltaTime;
         }
@@ -193,5 +208,26 @@ public class PlayerController : MonoBehaviour
         // updates the stamina bar to fill depending on the player's current stamina in comparison to the max stamina
         staminaBar.fillAmount = playerCurrentStamina / maxStamina;
     }
+    #endregion
+
+    #region Sound Effects
+    private void PlayFootstepSound()
+    {
+        if (!playerSFXSource.isPlaying)
+        {
+            playerSFXSource.clip = footstepSFX;
+            playerSFXSource.loop = true;
+            playerSFXSource.Play();
+        }
+    }
+
+    private void StopFootstepSound()
+    {
+        if (playerSFXSource.isPlaying)
+        {
+            playerSFXSource.Stop();
+        }
+    }
+
     #endregion
 }
