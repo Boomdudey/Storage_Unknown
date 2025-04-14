@@ -100,6 +100,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #region Player Movement
     private void HandleMovement()
     {
         forward = transform.TransformDirection(Vector3.forward);
@@ -166,6 +167,9 @@ public class PlayerController : MonoBehaviour
     {
         transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
     }
+    #endregion
+
+    #region Player Stamina
 
     private void StartStaminaRegen()
     {
@@ -189,5 +193,5 @@ public class PlayerController : MonoBehaviour
         // updates the stamina bar to fill depending on the player's current stamina in comparison to the max stamina
         staminaBar.fillAmount = playerCurrentStamina / maxStamina;
     }
-
+    #endregion
 }
