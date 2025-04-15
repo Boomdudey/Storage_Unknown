@@ -7,7 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-
+    #region Variables
     public Camera playerCamera;
     private Vector3 crouchPosition = new Vector3(0, .29f, .101f);
     [SerializeField] public Rigidbody rb;
@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float gravityStrength = 10f;
     [SerializeField] private float currentSpeed = 5f;
     [SerializeField] private float tiredSpeed = 2.5f;
-    [SerializeField] private bool isTired;
+    [SerializeField] public bool isTired;
 
     [Header("Crouch Parameters")]
     [SerializeField] public bool isCrouched;
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxStamina = 100.0f;
     [SerializeField] private float staminaDrain = 20f;
     [SerializeField] private float staminaRegen = 5f;
-    [SerializeField] private bool isRunning;
+    [SerializeField] public bool isRunning;
     [SerializeField] private Image staminaBar;
     [SerializeField] private CanvasGroup staminaBarCanvas;
 
@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     float rotationX = 0f;
 
     CharacterController characterController;
+    #endregion
 
     private void Awake()
     {
@@ -74,20 +75,22 @@ public class PlayerController : MonoBehaviour
         HandleRotation();
         StaminaBarUpdate(1);
 
-
-        // Run speed is 10f so as long as currentSpeed is less then 10f AND playerCurrentStamina is less then full max stamina
-        // you will begin the StartRegenStamina function
-        if (currentSpeed < 10f && playerCurrentStamina <= maxStamina - .01)
+        // Start regenerating stamina when not sprinting and stamina is not full
+        if (currentSpeed < runSpeed && playerCurrentStamina <= maxStamina - 0.01f)
         {
             StartStaminaRegen();
         }
-        // When sprinting, which turns currentSpeed to 10, and playerCurrentStamina is greater than zero
-        // as well as when moveDirection vector3, does not equal (0,0,0), stamina will drain
-        else if (currentSpeed == 10f && playerCurrentStamina >= 0 && moveDirection != Vector3.zero)
+        // Drain stamina only if the player is running and moving
+        else if (
+            currentSpeed == runSpeed &&
+            playerCurrentStamina > 0 &&
+            (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        )
         {
             StartStaminaDrain();
         }
 
+        // Handle tired state when stamina is empty
         if (playerCurrentStamina <= 0)
         {
             isTired = true;
@@ -96,13 +99,15 @@ public class PlayerController : MonoBehaviour
             staminaBarCanvas.alpha = 1.0f;
         }
 
+        // Recover from tired state when stamina is half full
         if (playerCurrentStamina >= 50 && isTired)
         {
             isTired = false;
-            currentSpeed = 5f;
+            currentSpeed = walkSpeed;
             staminaBar.color = Color.white;
         }
     }
+
 
     #region Player Movement
     private void HandleMovement()
@@ -110,7 +115,7 @@ public class PlayerController : MonoBehaviour
         forward = transform.TransformDirection(Vector3.forward);
         right = transform.TransformDirection(Vector3.right);
 
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+        isRunning = Input.GetKey(KeyCode.LeftShift);
 
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -152,7 +157,7 @@ public class PlayerController : MonoBehaviour
 
         if (isMoving)
         {
-            PlayFootstepSound();
+            PlayFootstepSound(isCrouched, isRunning);
         }
         else
         {
@@ -211,13 +216,40 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Sound Effects
-    private void PlayFootstepSound()
+    private void PlayFootstepSound(bool isCrouching, bool isRunning)
     {
+        float targetPitch = 1f;
+        float targetVolume = 1f;
+
+        if (isCrouching || isTired)
+        {
+            targetPitch = 0.6f;
+            targetVolume = 0.5f;
+        }
+        else if (isRunning && !isTired)
+        {
+            targetPitch = 1.4f;
+            targetVolume = 1.4f;
+        }
+
         if (!playerSFXSource.isPlaying)
         {
             playerSFXSource.clip = footstepSFX;
             playerSFXSource.loop = true;
+            playerSFXSource.pitch = targetPitch;
+            playerSFXSource.volume = targetVolume;
             playerSFXSource.Play();
+        }
+        else
+        {
+            if (playerSFXSource.pitch != targetPitch)
+            {
+                playerSFXSource.pitch = targetPitch;
+            }
+            if (playerSFXSource.volume != targetVolume)
+            {
+                playerSFXSource.volume = targetVolume;
+            }
         }
     }
 
