@@ -56,7 +56,6 @@ public class HeadBobController : MonoBehaviour
 
         UpdateMotion();
         ResetCameraPosition();
-        playerCamera.LookAt(FocusTarget());
     }
 
     private void PlayMotion(Vector3 motion)
@@ -79,10 +78,12 @@ public class HeadBobController : MonoBehaviour
         float dynamicToggleSpeed = toggleSpeed;
 
         if (playerController.isCrouched)
-            dynamicToggleSpeed = 0.5f; // much lower threshold for crouch bobbing
+        {
+            dynamicToggleSpeed = 0.5f;
+        }
 
-        bool isMoving = playerSpeed > 0.1f;
-        if (!isMoving)
+        bool isMovingForwardOrBackward = (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S)) && playerSpeed > 0.1f;
+        if (!isMovingForwardOrBackward)
         {
             return;
         }

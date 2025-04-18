@@ -989,7 +989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   headBobEnabled: 1
-  headBobAmp: 0.03
+  headBobAmp: 0.01
   headBobFreq: 11
   startHeadBobFreq: 0
   playerCamera: {fileID: 323406398}
@@ -2003,6 +2003,10 @@ PrefabInstance:
       propertyPath: staminaBar
       value: 
       objectReference: {fileID: 1265288937}
+    - target: {fileID: 4803133491917101533, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
+      propertyPath: cameraPivot
+      value: 
+      objectReference: {fileID: 1446712029}
     - target: {fileID: 4803133491917101533, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
       propertyPath: footstepSFX
       value: 

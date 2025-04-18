@@ -25,6 +25,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float crouchYScale;
     private float startYScale;
 
+    [Header("Lean Parameters")]
+    [SerializeField] private float leanDistance = 0.4f;
+    [SerializeField] private float leanSpeed = 6f;
+    [SerializeField] private float leanTiltAngle = 8f;
+    private float targetLeanOffset = 0f;
+    private float currentLeanOffset = 0f;
+    private float targetTilt = 0f;
+    private float currentTilt = 0f;
+    public bool isLeaning;
+
     [Header("Stamina Parameters")]
     [SerializeField] public float playerCurrentStamina = 100.0f;
     [SerializeField] private float maxStamina = 100.0f;
@@ -40,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] public float lookSens = 2f;
     public float lookXLimit = 45f;
+    [SerializeField] private Transform cameraPivot;
 
     [SerializeField] Vector3 moveDirection = Vector3.zero;
     Vector3 forward;
@@ -73,6 +84,7 @@ public class PlayerController : MonoBehaviour
     {
         HandleMovement();
         HandleRotation();
+        HandleLean();
         StaminaBarUpdate(1);
 
         // Start regenerating stamina when not sprinting and stamina is not full
@@ -169,12 +181,18 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotation()
     {
-        rotationX += -Input.GetAxis("Mouse Y") * lookSens;
-        rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
+        float mouseY = Input.GetAxis("Mouse Y") * lookSens;
+        float mouseX = Input.GetAxis("Mouse X") * lookSens;
 
-        float rotationY = Input.GetAxis("Mouse X") * lookSens;
-        transform.rotation *= Quaternion.Euler(0, rotationY, 0);
+        // Clamp vertical look rotation
+        rotationX -= mouseY;
+        rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+
+        // Apply vertical look to Camera Pivot
+        cameraPivot.localEulerAngles = new Vector3(rotationX, 0f, 0f);
+
+        // Apply horizontal look to Player (turning left/right)
+        transform.Rotate(0, mouseX, 0);
     }
 
     private void Crouch()
@@ -187,6 +205,34 @@ public class PlayerController : MonoBehaviour
     {
         transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
     }
+
+    private void HandleLean()
+    {
+        if (Input.GetKey(KeyCode.Q))
+        {
+            targetLeanOffset = -leanDistance;
+            targetTilt = leanTiltAngle;
+        }
+        else if (Input.GetKey(KeyCode.E))
+        {
+            targetLeanOffset = leanDistance;
+            targetTilt = -leanTiltAngle;
+        }
+        else
+        {
+            targetLeanOffset = 0f;
+            targetTilt = 0f;
+        }
+
+        // Smoothly interpolate position and tilt
+        currentLeanOffset = Mathf.Lerp(currentLeanOffset, targetLeanOffset, Time.deltaTime * leanSpeed);
+        currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * leanSpeed);
+
+        Vector3 localPos = new Vector3(currentLeanOffset, 0f, 0f);
+        cameraPivot.localPosition = localPos;
+        cameraPivot.localRotation = Quaternion.Euler(rotationX, 0f, currentTilt);
+    }
+
     #endregion
 
     #region Player Stamina
