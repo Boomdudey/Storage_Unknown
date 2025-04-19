@@ -4,6 +4,7 @@ using UnityEngine.Audio;
 using TMPro;
 using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class SettingsMenu : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class SettingsMenu : MonoBehaviour
     public AudioMixer audioMixer;
 
     Resolution[] screenrResolutions;
+
+    public PlayerController player;
     #endregion
 
     public void GraphicsQualityChange()
@@ -35,6 +38,18 @@ public class SettingsMenu : MonoBehaviour
     public void VolumeChange()
     {
         audioMixer.SetFloat("MasterVolume", volumeSlider.value);
+    }
+
+    public void BackToGame()
+    {
+        if (player.hitPlayButton)
+        {
+            SceneManager.LoadScene("TestScene");
+        }
+        else
+        {
+            return;
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

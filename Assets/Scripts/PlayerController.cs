@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
@@ -57,6 +58,8 @@ public class PlayerController : MonoBehaviour
     float rotationX = 0f;
 
     CharacterController characterController;
+    [SerializeField] PauseMenu pauseMenu;
+    public bool hitPlayButton;
     #endregion
 
     private void Awake()
@@ -84,6 +87,7 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
         HandleRotation();
         HandleLean();
+        HandleUI();
         StaminaBarUpdate(1);
 
         // Start regenerating stamina when not sprinting and stamina is not full
@@ -180,18 +184,21 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotation()
     {
-        float mouseY = Input.GetAxis("Mouse Y") * lookSens;
-        float mouseX = Input.GetAxis("Mouse X") * lookSens;
+        if (!pauseMenu.isPaused)
+        {
+            float mouseY = Input.GetAxis("Mouse Y") * lookSens;
+            float mouseX = Input.GetAxis("Mouse X") * lookSens;
 
-        // Clamp vertical look rotation
-        rotationX -= mouseY;
-        rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+            // Clamp vertical look rotation
+            rotationX -= mouseY;
+            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
 
-        // Apply vertical look to Camera Pivot
-        cameraPivot.localEulerAngles = new Vector3(rotationX, 0f, 0f);
+            // Apply vertical look to Camera Pivot
+            cameraPivot.localEulerAngles = new Vector3(rotationX, 0f, 0f);
 
-        // Apply horizontal look to Player (turning left/right)
-        transform.Rotate(0, mouseX, 0);
+            // Apply horizontal look to Player (turning left/right)
+            transform.Rotate(0, mouseX, 0);
+        }
     }
 
     private void Crouch()
@@ -306,5 +313,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region PlayerUI
+    private void HandleUI()
+    {
+        // change this to escape for the build
+        if (Input.GetKey(KeyCode.P)){
+            Time.timeScale = 0f;
+            pauseMenu.pauseMenuUI.SetActive(true);
+            pauseMenu.isPaused = true;
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            if(SceneManager.GetActiveScene().name == "TestScene")
+            {
+                hitPlayButton = true;
+            }
+        }
+    }
     #endregion
 }
