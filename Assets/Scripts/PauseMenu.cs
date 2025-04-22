@@ -15,8 +15,12 @@ public class PauseMenu : MonoBehaviour
     #region Functions
     public void ResumeGame()
     {
+        Time.timeScale = 1f;
         pauseMenuUI.SetActive(false);
         isPaused = false;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void Settings()
