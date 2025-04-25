@@ -21,6 +21,9 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float jumpscareDuration = 0f;
 
     [SerializeField] public bool isChasing = false;
+
+    [SerializeField] public AudioSource jumpScareAudio;
+    [SerializeField] public AudioClip jumpScareClip;
     #endregion
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -120,5 +123,8 @@ public class EnemyAI : MonoBehaviour
         targetPosition.y = player.position.y;
         transform.position = targetPosition;
         transform.LookAt(player);
+
+        jumpScareAudio.clip = jumpScareClip;
+        jumpScareAudio.Play();
     }
 }
