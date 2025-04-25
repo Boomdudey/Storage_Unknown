@@ -97,16 +97,19 @@ public class EnemyAI : MonoBehaviour
 
     private bool CanSeePlayer()
     {
+
         Vector3 directionToPlayer = player.position - transform.position;
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
 
         if(directionToPlayer.magnitude <= viewRange && angle <= viewAngle)
         {
-            Ray ray = new Ray(transform.position + Vector3.up, directionToPlayer.normalized);
-
-            if(Physics.Raycast(ray, out RaycastHit hit, viewRange))
+            Vector3 eyeLevel = transform.position + Vector3.up * .5f;
+            Ray ray = new Ray(eyeLevel, directionToPlayer.normalized);
+            Debug.DrawRay(ray.origin, ray.direction * viewRange, Color.red);
+            if (Physics.Raycast(ray, out RaycastHit hit, viewRange))
             {
-                if(hit.transform == player)
+                if (hit.transform.CompareTag("Player"))
+
                 {
                     return true;
                 }
