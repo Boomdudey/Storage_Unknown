@@ -1,6 +1,7 @@
 using System;
 using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
 public class EnemyAI : MonoBehaviour
@@ -24,11 +25,19 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField] public AudioSource jumpScareAudio;
     [SerializeField] public AudioClip jumpScareClip;
+
+    [Header("Post-Processing")]
+    [SerializeField] private PostProcessVolume postProcessVolume;
+    private Vignette vignette;
+
     #endregion
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        if (postProcessVolume != null)
+        {
+            postProcessVolume.profile.TryGetSettings(out vignette);
+        }
     }
 
     // Update is called once per frame
@@ -56,14 +65,27 @@ public class EnemyAI : MonoBehaviour
         if (CanSeePlayer())
         {
             visionTimer += Time.deltaTime;
+            float intensity = Mathf.Clamp01(visionTimer / timeBeforeChase - .2f);
+
+
             if (visionTimer >= timeBeforeChase)
             {
                 isChasing = true;
+            }
+
+            if (vignette != null)
+            {
+                vignette.intensity.value = intensity;
             }
         }
         else
         {
             visionTimer = 0f;
+
+            if (vignette != null)
+            {
+                vignette.intensity.value = 0f;
+            }
         }
     }
 
