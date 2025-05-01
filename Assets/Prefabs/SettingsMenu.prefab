@@ -3546,7 +3546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2468448504042480794
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3587,7 +3587,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4125deb6e372bcb4f970193119dab508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPlayButton: 0
 --- !u!114 &3683754191255932710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3604,7 +3603,7 @@ MonoBehaviour:
   resolutionDropdown: {fileID: 7059535249367870735}
   volumeSlider: {fileID: 4627384747437105148}
   audioMixer: {fileID: 24100000, guid: 19ab1ef2ed1c2c94ba62c143b331ef60, type: 2}
-  mainMenu: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &8435550320404325134
 GameObject:
   m_ObjectHideFlags: 0
