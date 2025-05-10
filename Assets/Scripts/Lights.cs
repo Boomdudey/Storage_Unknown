@@ -9,6 +9,7 @@ public class Lights : MonoBehaviour
     private bool triggerActive = false;
     private bool startTimer = false;
     [SerializeField] float timer;
+
     private PlayerController playerController;
 
     private void Start()
@@ -25,24 +26,31 @@ public class Lights : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(playerController.isCrouched == true)
+        // Check if player and crouching
+        if (other.CompareTag("Player") && playerController != null && playerController.isCrouched)
         {
-            return; // Prevents the light from turning on if the player is crouched
+            return; // Do not activate light if player is crouched
         }
-        // Debug.Log("Collider entered the trigger");
-        triggerActive = true;
-        startTimer = false; // Stop the timer when entering the trigger
-        pointLight.enabled = true; // Turns on the light when a collider enter
-        timer = lightActiveTime;  // Reset the timer when the collider enters the trigger
+
+        // If collider is player or enemy
+        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
+        {
+            triggerActive = true;
+            startTimer = false;
+            pointLight.enabled = true;
+            timer = lightActiveTime;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // Debug.Log("Collider exited the trigger");
-        triggerActive = false;
-        startTimer = true; // Start the timer when exiting the trigger
+        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
+        {
+            triggerActive = false;
+            startTimer = true;
+        }
     }
-    
+
     private void Update()
     {
         if (startTimer && !triggerActive)
@@ -50,9 +58,9 @@ public class Lights : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
-                pointLight.enabled = false; // Turns off the light once timer reaches zero
-                timer = lightActiveTime;  // Reset the timer for next activation
-                startTimer = false;  // Stop the timer since the light is off now
+                pointLight.enabled = false;
+                timer = lightActiveTime;
+                startTimer = false;
             }
         }
     }
