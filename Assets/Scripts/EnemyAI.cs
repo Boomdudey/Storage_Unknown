@@ -97,26 +97,33 @@ public class EnemyAI : MonoBehaviour
 
     private bool CanSeePlayer()
     {
+        Vector3 eyeLevel = transform.position + Vector3.up * 1.6f; // Enemy eye height
+        Vector3 playerTarget = player.position + Vector3.up * 0.9f; // Adjust this to aim at the middle of the player's body/head
 
-        Vector3 directionToPlayer = player.position - transform.position;
-        float angle = Vector3.Angle(transform.forward, directionToPlayer);
+        Vector3 directionToPlayer = playerTarget - eyeLevel;
 
-        if(directionToPlayer.magnitude <= viewRange && angle <= viewAngle)
+        // Flatten for angle check
+        Vector3 flatDir = new Vector3(directionToPlayer.x, 0f, directionToPlayer.z);
+        float angle = Vector3.Angle(transform.forward, flatDir);
+
+        if (directionToPlayer.magnitude <= viewRange && angle <= viewAngle)
         {
-            Vector3 eyeLevel = transform.position + Vector3.up * .5f;
             Ray ray = new Ray(eyeLevel, directionToPlayer.normalized);
-            Debug.DrawRay(ray.origin, ray.direction * viewRange, Color.red);
+            Debug.DrawRay(ray.origin, ray.direction * viewRange, Color.red, 0f, true);
+
             if (Physics.Raycast(ray, out RaycastHit hit, viewRange))
             {
                 if (hit.transform.CompareTag("Player"))
-
                 {
                     return true;
                 }
             }
         }
+
         return false;
     }
+
+
 
     private void BeginChase()
     {
