@@ -1,6 +1,8 @@
 using System;
+using Unity.Services.Analytics;
 using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
@@ -30,10 +32,18 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private PostProcessVolume postProcessVolume;
     private Vignette vignette;
 
+    [Header("AI Navigation")]
+    private NavMeshAgent agent;
+    [SerializeField] private float wanderRadius = 10f;
+    [SerializeField] private float wanderTimer = 5f;
+    private float wanderCooldown;
+    private Vector3 wanderTarget;
     #endregion
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        agent = GetComponent<NavMeshAgent>();
+
         if (postProcessVolume != null)
         {
             postProcessVolume.profile.TryGetSettings(out vignette);
@@ -47,7 +57,7 @@ public class EnemyAI : MonoBehaviour
         {
             JumpScareTilt();
             jumpscareDuration += Time.deltaTime;
-            if(jumpscareDuration >= 6f)
+            if (jumpscareDuration >= 6f)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -67,7 +77,6 @@ public class EnemyAI : MonoBehaviour
             visionTimer += Time.deltaTime;
             float intensity = Mathf.Clamp01(visionTimer / timeBeforeChase - .2f);
 
-
             if (visionTimer >= timeBeforeChase)
             {
                 isChasing = true;
@@ -86,8 +95,11 @@ public class EnemyAI : MonoBehaviour
             {
                 vignette.intensity.value = 0f;
             }
+
+            Wander(); // Wander when not seeing the player
         }
     }
+
 
     private void JumpScareTilt()
     {
@@ -159,4 +171,28 @@ public class EnemyAI : MonoBehaviour
         jumpScareAudio.clip = jumpScareClip;
         jumpScareAudio.Play();
     }
+
+    #region AI Nav
+
+    private void Wander()
+    {
+        wanderCooldown += Time.deltaTime;
+
+        if (wanderCooldown >= wanderTimer || Vector3.Distance(transform.position, wanderTarget) < 1f)
+        {
+            Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * wanderRadius;
+            randomDirection += transform.position;
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomDirection, out hit, wanderRadius, NavMesh.AllAreas))
+            {
+                wanderTarget = hit.position;
+                agent.SetDestination(wanderTarget);
+            }
+
+            wanderCooldown = 0f;
+        }
+    }
+
+    #endregion
 }
