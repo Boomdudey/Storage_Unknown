@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Services.Analytics;
 using UnityEditor.SearchService;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] public Transform player;
 
     [SerializeField] public float speed = 1f;
-    [SerializeField] public float viewRange = 15f;
+    [SerializeField] public float viewRange;
     [SerializeField] public float viewAngle = 60f;
     [SerializeField] public float timeBeforeChase = 2f;
     [SerializeField] public float visionTimer = 0f;
@@ -32,12 +33,18 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private PostProcessVolume postProcessVolume;
     private Vignette vignette;
 
+    [Header("Hearing")]
+    [SerializeField] private float hearingRange = 20f;
+
     [Header("AI Navigation")]
     private NavMeshAgent agent;
     [SerializeField] private float wanderRadius = 10f;
-    [SerializeField] private float wanderTimer = 5f;
-    private float wanderCooldown;
     private Vector3 wanderTarget;
+    private List<Transform> allPositions = new List<Transform>();
+    [SerializeField] private float waitTimeAtPoint = 1.0f;
+    private bool isWaiting = false;
+    private float waitTimer = 0f;
+
     #endregion
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -47,6 +54,13 @@ public class EnemyAI : MonoBehaviour
         if (postProcessVolume != null)
         {
             postProcessVolume.profile.TryGetSettings(out vignette);
+        }
+
+        // This is for the positions the enemy can wander to
+        GameObject[] positionObjects = GameObject.FindGameObjectsWithTag("Position");
+        foreach (GameObject obj in positionObjects)
+        {
+            allPositions.Add(obj.transform);
         }
     }
 
@@ -72,10 +86,19 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
+        if (!isChasing)
+        {
+            DetectFootsteps();
+        }
+
         if (CanSeePlayer())
         {
+            // Stop movement while watching the player
+            if (agent.enabled && agent.hasPath)
+                agent.ResetPath();
+
             visionTimer += Time.deltaTime;
-            float intensity = Mathf.Clamp01(visionTimer / timeBeforeChase - .2f);
+            float intensity = Mathf.Clamp01(visionTimer / timeBeforeChase - 0.2f);
 
             if (visionTimer >= timeBeforeChase)
             {
@@ -86,6 +109,8 @@ public class EnemyAI : MonoBehaviour
             {
                 vignette.intensity.value = intensity;
             }
+
+            return; // Exit early so Wander doesn't run
         }
         else
         {
@@ -109,8 +134,8 @@ public class EnemyAI : MonoBehaviour
 
     private bool CanSeePlayer()
     {
-        Vector3 eyeLevel = transform.position + Vector3.up * 1.6f; // Enemy eye height
-        Vector3 playerTarget = player.position + Vector3.up * 0.9f; // Adjust this to aim at the middle of the player's body/head
+        Vector3 eyeLevel = transform.position + Vector3.up * 0.3f; // Enemy eye height
+        Vector3 playerTarget = player.position + Vector3.up * 0.3f; // Adjust this to aim at the middle of the player's body/head
 
         Vector3 directionToPlayer = playerTarget - eyeLevel;
 
@@ -176,22 +201,96 @@ public class EnemyAI : MonoBehaviour
 
     private void Wander()
     {
-        wanderCooldown += Time.deltaTime;
-
-        if (wanderCooldown >= wanderTimer || Vector3.Distance(transform.position, wanderTarget) < 1f)
+        // 1. If waiting after reaching a point
+        if (isWaiting)
         {
-            Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * wanderRadius;
-            randomDirection += transform.position;
+            waitTimer += Time.deltaTime;
 
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomDirection, out hit, wanderRadius, NavMesh.AllAreas))
+            if (waitTimer >= waitTimeAtPoint)
             {
-                wanderTarget = hit.position;
-                agent.SetDestination(wanderTarget);
+                isWaiting = false;
+                waitTimer = 0f;
+
+                PickNewDestination();  // Now pick a new point
             }
 
-            wanderCooldown = 0f;
+            return;
         }
+
+        // 2. If close to destination and not yet waiting
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            if (!agent.hasPath || agent.velocity.sqrMagnitude < 0.01f)
+            {
+                isWaiting = true;
+                waitTimer = 0f;
+            }
+        }
+    }
+    private void PickNewDestination()
+    {
+        List<Transform> nearbyPoints = new List<Transform>();
+
+        foreach (Transform t in allPositions)
+        {
+            if (Vector3.Distance(transform.position, t.position) <= wanderRadius)
+            {
+                nearbyPoints.Add(t);
+            }
+        }
+
+        if (nearbyPoints.Count > 0)
+        {
+            wanderTarget = nearbyPoints[UnityEngine.Random.Range(0, nearbyPoints.Count)].position;
+            agent.SetDestination(wanderTarget);
+        }
+    }
+
+
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+
+        // Draw line to wander target
+        if (Application.isPlaying)
+        {
+            Gizmos.DrawLine(transform.position, wanderTarget);
+            Gizmos.DrawSphere(wanderTarget, 0.3f);
+        }
+
+        // Optional: visualize view cone
+        Gizmos.color = new Color(1, 0, 0, 0.3f);
+        Vector3 leftRay = Quaternion.Euler(0, -viewAngle, 0) * transform.forward;
+        Vector3 rightRay = Quaternion.Euler(0, viewAngle, 0) * transform.forward;
+
+        Gizmos.DrawRay(transform.position + Vector3.up * 1.6f, leftRay * viewRange);
+        Gizmos.DrawRay(transform.position + Vector3.up * 1.6f, rightRay * viewRange);
+    }
+
+    private void DetectFootsteps()
+    {
+        // Look for sounds within the hearing range
+        Collider[] colliders = Physics.OverlapSphere(transform.position, hearingRange);
+        foreach (Collider col in colliders)
+        {
+            if (col.CompareTag("Player"))  // Check if player is within range
+            {
+                // If the player's AudioSource is emitting sound, move towards the player
+                AudioSource playerAudio = col.GetComponent<AudioSource>();
+                if (playerAudio != null && playerAudio.isPlaying)
+                {
+                    MoveTowardsNoise(playerAudio.transform.position);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void MoveTowardsNoise(Vector3 soundLocation)
+    {
+        // Move the enemy toward the noise source (the player's position)
+        agent.SetDestination(soundLocation);
     }
 
     #endregion

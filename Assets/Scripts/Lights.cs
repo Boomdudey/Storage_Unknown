@@ -25,7 +25,7 @@ public class Lights : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+        {
         // Check if player and crouching
         if (other.CompareTag("Player") && playerController != null && playerController.isCrouched)
         {
