@@ -45,12 +45,15 @@ public class EnemyAI : MonoBehaviour
     private bool isWaiting = false;
     private float waitTimer = 0f;
 
+    private MeshRenderer meshRenderer;
+    private bool hasScreamed = false;
+
     #endregion
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
         if (postProcessVolume != null)
         {
             postProcessVolume.profile.TryGetSettings(out vignette);
@@ -83,6 +86,12 @@ public class EnemyAI : MonoBehaviour
         if (isChasing)
         {
             BeginChase();
+            if(hasScreamed == false)
+            {
+                jumpScareAudio.clip = jumpScareClip;
+                jumpScareAudio.Play();
+                hasScreamed = true;
+            }
             return;
         }
 
@@ -166,6 +175,11 @@ public class EnemyAI : MonoBehaviour
     {
         transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
         transform.position = Vector3.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
+
+        if (meshRenderer != null && !meshRenderer.enabled)
+        {
+            meshRenderer.enabled = true; // Turn mesh back on
+        }
 
         float dist = Vector3.Distance(transform.position, player.position);
         if (dist < 2f)
@@ -266,6 +280,9 @@ public class EnemyAI : MonoBehaviour
 
         Gizmos.DrawRay(transform.position + Vector3.up * 1.6f, leftRay * viewRange);
         Gizmos.DrawRay(transform.position + Vector3.up * 1.6f, rightRay * viewRange);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, hearingRange);
     }
 
     private void DetectFootsteps()
