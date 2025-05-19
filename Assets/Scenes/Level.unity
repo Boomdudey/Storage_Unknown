@@ -178417,7 +178417,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1276944252
 Light:
   m_ObjectHideFlags: 0
@@ -277485,6 +277485,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3177352152025595801, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 247
+      objectReference: {fileID: 0}
     - target: {fileID: 4803133491917101533, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
       propertyPath: pauseMenu
       value: 
@@ -277561,8 +277565,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9145726874327599995, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6125073657285641510, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5055928066189366005, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
@@ -277571,6 +277580,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9145726874327599995, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1585603248314338574}
+    - targetCorrespondingSourceObject: {fileID: 9145726874327599995, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1585603248314338577}
   m_SourcePrefab: {fileID: 100100000, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
 --- !u!1 &1585603248314338573 stripped
 GameObject:
@@ -277637,6 +277649,23 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &1585603248314338577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585603248314338573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 2edf29e813b1f3140a444f67bba19681, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
 --- !u!1001 &3568421371090929892
 PrefabInstance:
   m_ObjectHideFlags: 0
