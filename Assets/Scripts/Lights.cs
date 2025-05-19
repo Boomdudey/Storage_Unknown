@@ -6,6 +6,11 @@ public class Lights : MonoBehaviour
 {
     [SerializeField] Light pointLight;
     [SerializeField] float lightActiveTime;
+    [SerializeField] Renderer emissiveRenderer; //Drag the light fixture mesh renderer here
+    [SerializeField] Color emissionOnColor = Color.white;
+    [SerializeField] Color emissionOffColor = Color.black;
+    private Material emissiveMaterial;
+
     private bool triggerActive = false;
     private bool startTimer = false;
     [SerializeField] float timer;
@@ -17,6 +22,13 @@ public class Lights : MonoBehaviour
         pointLight.enabled = false;
         timer = lightActiveTime;
 
+        // Get material instance 
+        if (emissiveRenderer != null)
+        {
+            emissiveMaterial = emissiveRenderer.material;
+            SetEmission(false); // start off
+        }
+
         playerController = FindFirstObjectByType<PlayerController>();
         if (playerController == null)
         {
@@ -25,19 +37,16 @@ public class Lights : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-        {
-        // Check if player and crouching
+    {
         if (other.CompareTag("Player") && playerController != null && playerController.isCrouched)
-        {
-            return; // Do not activate light if player is crouched
-        }
+            return;
 
-        // If collider is player or enemy
         if (other.CompareTag("Player") || other.CompareTag("Enemy"))
         {
             triggerActive = true;
             startTimer = false;
             pointLight.enabled = true;
+            SetEmission(true); // Turn on glow
             timer = lightActiveTime;
         }
     }
@@ -59,9 +68,26 @@ public class Lights : MonoBehaviour
             if (timer <= 0)
             {
                 pointLight.enabled = false;
+                SetEmission(false); // Turn off glow
                 timer = lightActiveTime;
                 startTimer = false;
             }
+        }
+    }
+
+    private void SetEmission(bool isOn)
+    {
+        if (emissiveMaterial == null) return;
+
+        if (isOn)
+        {
+            emissiveMaterial.EnableKeyword("_EMISSION");
+            emissiveMaterial.SetColor("_EmissionColor", emissionOnColor);
+        }
+        else
+        {
+            emissiveMaterial.SetColor("_EmissionColor", emissionOffColor);
+            emissiveMaterial.DisableKeyword("_EMISSION");
         }
     }
 }
