@@ -419,7 +419,7 @@ MonoBehaviour:
   pointLight: {fileID: 946761550450793332}
   lightActiveTime: 10
   emissiveRenderer: {fileID: 1847522442821265780}
-  emissionOnColor: {r: 1, g: 1, b: 1, a: 1}
+  emissionOnColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   emissionOffColor: {r: 0, g: 0, b: 0, a: 1}
   timer: 0
 --- !u!1 &9144292809874040721
