@@ -14202,6 +14202,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor
       objectReference: {fileID: 0}
+    - target: {fileID: 799966926546778893, guid: 788cf6dc059567e4898b4ed06e0b34a4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 822360379506335012, guid: 788cf6dc059567e4898b4ed06e0b34a4, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -34481,6 +34485,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4983594351030774473, guid: 6a1aa0730540bc44191d788d53fa7d3f, type: 3}
   m_PrefabInstance: {fileID: 961938011}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &231926910 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4688868259236815094, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+  m_PrefabInstance: {fileID: 3440300436805378172}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &232723801
 Mesh:
   m_ObjectHideFlags: 0
@@ -48806,12 +48815,59 @@ Mesh:
     offset: 0
     size: 0
     path: 
+<<<<<<< HEAD
+--- !u!1 &318102054 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8015215059621611339, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+  m_PrefabInstance: {fileID: 3440300436805378172}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &318102055 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+  m_PrefabInstance: {fileID: 3440300436805378172}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &318102056
+MonoBehaviour:
+=======
 --- !u!43 &318065980
 Mesh:
+>>>>>>> parent of 7456649 (Added Assets/Map has Textures except doorway)
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
+  m_GameObject: {fileID: 318102054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d794a79677196b4db71d317eb46aedf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RightDoorhinge: {fileID: 231926910}
+  LeftDoorhinge: {fileID: 1060231589}
+  hidingPosition: {fileID: 1379270253}
+--- !u!65 &318102057
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318102054}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.21, y: 2.63, z: 1.8}
+  m_Center: {x: -1.01, y: 0.93, z: -0.16}
+=======
   m_Name: pb_Mesh-78282
   serializedVersion: 11
   m_SubMeshes:
@@ -48971,6 +49027,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
+>>>>>>> parent of 7456649 (Added Assets/Map has Textures except doorway)
 --- !u!4 &323406398 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8898234193693820301, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
@@ -66292,6 +66349,9 @@ Transform:
   - {fileID: 65057618}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
+--- !u!1 &501225604
+=======
 --- !u!43 &498500871
 Mesh:
   m_ObjectHideFlags: 0
@@ -66458,6 +66518,7 @@ Mesh:
     size: 0
     path: 
 --- !u!1 &500386437
+>>>>>>> parent of 7456649 (Added Assets/Map has Textures except doorway)
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66465,6 +66526,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< HEAD
+  - component: {fileID: 501225605}
+  m_Layer: 0
+  m_Name: PlayerExitPosition
+=======
   - component: {fileID: 500386438}
   - component: {fileID: 500386443}
   - component: {fileID: 500386442}
@@ -66473,17 +66539,33 @@ GameObject:
   - component: {fileID: 500386439}
   m_Layer: 0
   m_Name: Plane (25)
+>>>>>>> parent of 7456649 (Added Assets/Map has Textures except doorway)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
+--- !u!4 &501225605
+=======
 --- !u!4 &500386438
+>>>>>>> parent of 7456649 (Added Assets/Map has Textures except doorway)
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
+  m_GameObject: {fileID: 501225604}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.6087604, z: -0, w: 0.7933541}
+  m_LocalPosition: {x: -1.622, y: 0.07, z: -0.199}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 318102055}
+  m_LocalEulerAnglesHint: {x: 0, y: -75, z: 0}
+=======
   m_GameObject: {fileID: 500386437}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
@@ -67887,6 +67969,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
+>>>>>>> parent of 7456649 (Added Assets/Map has Textures except doorway)
 --- !u!43 &501815726
 Mesh:
   m_ObjectHideFlags: 0
@@ -150571,6 +150654,13 @@ Mesh:
     offset: 0
     size: 0
     path: 
+<<<<<<< HEAD
+--- !u!4 &1060231589 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7081727523241636729, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+  m_PrefabInstance: {fileID: 3440300436805378172}
+  m_PrefabAsset: {fileID: 0}
+=======
 --- !u!43 &1059272330
 Mesh:
   m_ObjectHideFlags: 0
@@ -150736,6 +150826,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
+>>>>>>> parent of 7456649 (Added Assets/Map has Textures except doorway)
 --- !u!1 &1064340794
 GameObject:
   m_ObjectHideFlags: 0
@@ -178417,7 +178508,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &1276944252
 Light:
   m_ObjectHideFlags: 0
@@ -190965,6 +191056,13 @@ Mesh:
     offset: 0
     size: 0
     path: 
+<<<<<<< HEAD
+--- !u!4 &1379270253 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 540023514593503493, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+  m_PrefabInstance: {fileID: 3440300436805378172}
+  m_PrefabAsset: {fileID: 0}
+=======
 --- !u!43 &1374935878
 Mesh:
   m_ObjectHideFlags: 0
@@ -191130,6 +191228,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
+>>>>>>> parent of 7456649 (Added Assets/Map has Textures except doorway)
 --- !u!43 &1380706118
 Mesh:
   m_ObjectHideFlags: 0
@@ -264151,6 +264250,70 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a1aa0730540bc44191d788d53fa7d3f, type: 3}
+<<<<<<< HEAD
+--- !u!1001 &2006402874
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -18.916
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000011920929
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -38.729
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806367210142904355, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_Name
+      value: Alarm Light
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641268051768402056, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.704
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+=======
+>>>>>>> parent of 7456649 (Added Assets/Map has Textures except doorway)
 --- !u!43 &2006740396
 Mesh:
   m_ObjectHideFlags: 0
@@ -277477,6 +277640,95 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a1aa0730540bc44191d788d53fa7d3f, type: 3}
+--- !u!1 &919132148315258469 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8256480698035888195, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+  m_PrefabInstance: {fileID: 3440300436805378172}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &919132148315258470
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148315258469}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7, y: 22.04, z: 15.5}
+  m_Center: {x: 0.43, y: 5.77, z: -1.19}
+--- !u!65 &919132148315258471
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148315258469}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 7.01, y: 22.04, z: 1}
+  m_Center: {x: -3.38, y: 5.77, z: -8.6}
+--- !u!65 &919132148315258472
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148315258469}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6.75, y: 22.04, z: 1}
+  m_Center: {x: -3.53, y: 5.77, z: 6.09}
+--- !u!65 &919132148315258473
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148315258469}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.62, y: 1, z: 10.57}
+  m_Center: {x: -3.7, y: -1.39, z: -0.77}
 --- !u!1001 &1585603248314338572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -277489,6 +277741,10 @@ PrefabInstance:
       propertyPath: m_CullingMask.m_Bits
       value: 247
       objectReference: {fileID: 0}
+    - target: {fileID: 4803133491917101533, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
+      propertyPath: cabinet
+      value: 
+      objectReference: {fileID: 318102056}
     - target: {fileID: 4803133491917101533, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
       propertyPath: pauseMenu
       value: 
@@ -277513,6 +277769,14 @@ PrefabInstance:
       propertyPath: staminaBarCanvas
       value: 
       objectReference: {fileID: 1465482623}
+    - target: {fileID: 4803133491917101533, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
+      propertyPath: interactableRange
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4803133491917101533, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
+      propertyPath: cabinetExitPosition
+      value: 
+      objectReference: {fileID: 501225605}
     - target: {fileID: 5029967937970433013, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
@@ -277524,6 +277788,10 @@ PrefabInstance:
     - target: {fileID: 5055928066189366005, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8409822908492190167, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 8409822908492190167, guid: 424b686f4a493e048893adc024cd33a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -277666,6 +277934,136 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   priority: 0
+--- !u!1001 &3440300436805378172
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -38.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7888522
+      objectReference: {fileID: 0}
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.61458296
+      objectReference: {fileID: 0}
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 75.843
+      objectReference: {fileID: 0}
+    - target: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 540023514593503493, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.586
+      objectReference: {fileID: 0}
+    - target: {fileID: 540023514593503493, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 540023514593503493, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 540023514593503493, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809824301935436842, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_TagString
+      value: Cabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792516314340826575, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_TagString
+      value: Cabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 6530677639393252664, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_TagString
+      value: Cabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7660363055377017145, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_TagString
+      value: Cabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8015215059621611339, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_Name
+      value: CabinetObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 8256480698035888195, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_TagString
+      value: Cabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8695780500905700422, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      propertyPath: m_TagString
+      value: Cabinet
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 522775321780040182, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 501225605}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8015215059621611339, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 318102056}
+    - targetCorrespondingSourceObject: {fileID: 8015215059621611339, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 318102057}
+    - targetCorrespondingSourceObject: {fileID: 8256480698035888195, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 919132148315258470}
+    - targetCorrespondingSourceObject: {fileID: 8256480698035888195, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 919132148315258472}
+    - targetCorrespondingSourceObject: {fileID: 8256480698035888195, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 919132148315258471}
+    - targetCorrespondingSourceObject: {fileID: 8256480698035888195, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 919132148315258473}
+  m_SourcePrefab: {fileID: 100100000, guid: b1c41d87868dae542aec6ce12f992fba, type: 3}
 --- !u!1001 &3568421371090929892
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -277962,3 +278360,11 @@ SceneRoots:
   - {fileID: 2143336223}
   - {fileID: 1156274184}
   - {fileID: 1699075381}
+<<<<<<< HEAD
+  - {fileID: 2006402874}
+  - {fileID: 633848296}
+  - {fileID: 2119453338}
+  - {fileID: 8009796238892441847}
+  - {fileID: 3440300436805378172}
+=======
+>>>>>>> parent of 7456649 (Added Assets/Map has Textures except doorway)

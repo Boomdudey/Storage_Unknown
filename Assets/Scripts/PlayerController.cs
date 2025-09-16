@@ -60,6 +60,13 @@ public class PlayerController : MonoBehaviour
     CharacterController characterController;
     [SerializeField] PauseMenu pauseMenu;
     public bool hitPlayButton;
+
+    [Header("Interaction Parameters")]
+    [SerializeField] private float interactableRange;
+    public Cabinet cabinet;
+    public bool isHiding;
+    public Transform cabinetExitPosition;
+    public bool isInteracting;
     #endregion
 
     private void Awake()
@@ -90,6 +97,18 @@ public class PlayerController : MonoBehaviour
         HandleUI();
         StaminaBarUpdate(1);
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (!isHiding)
+            {
+                TryOpenCabinet();
+            }
+            else
+            {
+                StartCoroutine(MoveToCabinetPosition(cabinetExitPosition, 1.5f));
+                isHiding = false;
+            }
+        }
         // Start regenerating stamina when not sprinting and stamina is not full
         if (currentSpeed < runSpeed && playerCurrentStamina <= maxStamina - 0.01f)
         {
@@ -127,77 +146,83 @@ public class PlayerController : MonoBehaviour
     #region Player Movement
     private void HandleMovement()
     {
-        forward = transform.TransformDirection(Vector3.forward);
-        right = transform.TransformDirection(Vector3.right);
-
-        isRunning = Input.GetKey(KeyCode.LeftShift);
-
-        if (Input.GetKeyDown(KeyCode.C))
+        if (!isHiding)
         {
-            isCrouched = true;
-        }
-        if (Input.GetKeyUp(KeyCode.C))
-        {
-            isCrouched = false;
+            forward = transform.TransformDirection(Vector3.forward);
+            right = transform.TransformDirection(Vector3.right);
 
-        }
+            isRunning = Input.GetKey(KeyCode.LeftShift);
 
-        if (isCrouched == true)
-        {
-            Crouch();
-            currentSpeed = crouchSpeed;
-        }
-        else
-        {
-            StandUp();
-            if (isRunning == true && isTired == false)
+            if (Input.GetKeyDown(KeyCode.C))
             {
-                currentSpeed = runSpeed;
+                isCrouched = true;
             }
+            if (Input.GetKeyUp(KeyCode.C))
+            {
+                isCrouched = false;
+
+            }
+
+            if (isCrouched == true)
+            {
+                Crouch();
+                currentSpeed = crouchSpeed;
+            }
+            else
+            {
+                StandUp();
+                if (isRunning == true && isTired == false)
+                {
+                    currentSpeed = runSpeed;
+                }
+            }
+
+            // Resets everything to walking speed
+            if (isRunning == false && isCrouched == false && isTired == false)
+            {
+                currentSpeed = walkSpeed;
+            }
+
+            float curSpeedX = currentSpeed * Input.GetAxis("Vertical");
+            float curSpeedY = currentSpeed * Input.GetAxis("Horizontal");
+
+            moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+            moveDirection.y = -2f;
+
+            bool isMoving = characterController.isGrounded && (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0);
+
+            if (isMoving)
+            {
+                PlayFootstepSound(isCrouched, isRunning);
+            }
+            else
+            {
+                StopFootstepSound();
+            }
+
+            characterController.Move(moveDirection * Time.deltaTime);
         }
-
-        // Resets everything to walking speed
-        if (isRunning == false && isCrouched == false && isTired == false)
-        {
-            currentSpeed = walkSpeed;
-        }
-
-        float curSpeedX = currentSpeed * Input.GetAxis("Vertical");
-        float curSpeedY = currentSpeed * Input.GetAxis("Horizontal");
-
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-        moveDirection.y = -2f;
-
-        bool isMoving = characterController.isGrounded && (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0);
-
-        if (isMoving)
-        {
-            PlayFootstepSound(isCrouched, isRunning);
-        }
-        else
-        {
-            StopFootstepSound();
-        }
-
-        characterController.Move(moveDirection * Time.deltaTime);
     }
 
     private void HandleRotation()
     {
-        if (!pauseMenu.isPaused)
+        if(!isHiding)
         {
-            float mouseY = Input.GetAxis("Mouse Y") * lookSens;
-            float mouseX = Input.GetAxis("Mouse X") * lookSens;
+            if (!pauseMenu.isPaused)
+            {
+                float mouseY = Input.GetAxis("Mouse Y") * lookSens;
+                float mouseX = Input.GetAxis("Mouse X") * lookSens;
 
-            // Clamp vertical look rotation
-            rotationX -= mouseY;
-            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+                // Clamp vertical look rotation
+                rotationX -= mouseY;
+                rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
 
-            // Apply vertical look to Camera Pivot
-            cameraPivot.localEulerAngles = new Vector3(rotationX, 0f, 0f);
+                // Apply vertical look to Camera Pivot
+                cameraPivot.localEulerAngles = new Vector3(rotationX, 0f, 0f);
 
-            // Apply horizontal look to Player (turning left/right)
-            transform.Rotate(0, mouseX, 0);
+                // Apply horizontal look to Player (turning left/right)
+                transform.Rotate(0, mouseX, 0);
+            }
         }
     }
 
@@ -284,7 +309,7 @@ public class PlayerController : MonoBehaviour
             targetVolume = 1.4f;
         }
 
-        if (!playerSFXSource.isPlaying)
+        if (!playerSFXSource.isPlaying&&!isHiding)
         {
             playerSFXSource.clip = footstepSFX;
             playerSFXSource.loop = true;
@@ -319,18 +344,84 @@ public class PlayerController : MonoBehaviour
     private void HandleUI()
     {
         // change this to escape for the build
-        if (Input.GetKey(KeyCode.P)){
+        if (Input.GetKey(KeyCode.P))
+        {
             Time.timeScale = 0f;
             pauseMenu.pauseMenuUI.SetActive(true);
             pauseMenu.isPaused = true;
 
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            if(SceneManager.GetActiveScene().name == "TestScene")
+            if (SceneManager.GetActiveScene().name == "TestScene")
             {
                 hitPlayButton = true;
             }
         }
     }
+    #endregion
+
+    #region Interactables
+    private void TryOpenCabinet()
+    {
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        RaycastHit hit;
+
+        Debug.DrawRay(ray.origin, ray.direction * interactableRange, Color.yellow, 1.0f);
+
+        if (Physics.Raycast(ray, out hit, interactableRange))
+        {
+            if (hit.collider.CompareTag("Cabinet"))
+            {
+                Cabinet cabinet = hit.collider.GetComponent<Cabinet>();
+                if (cabinet != null)
+                {
+                    cabinet.OpenDoor();
+                    isHiding = true;
+
+                    // Move player to cabinet enter point over 1.5 seconds
+                    StartCoroutine(MoveToCabinetPosition(cabinet.hidingPosition, 1.5f));
+                }
+            }
+        }
+    }
+
+
+    private IEnumerator MoveToCabinetPosition(Transform targetTransform, float duration)
+    {
+        StopFootstepSound();
+        Vector3 startPos = transform.position;
+        Quaternion startRot = transform.rotation;
+
+        Vector3 endPos = targetTransform.position;
+        Quaternion endRot = targetTransform.rotation;
+
+        if (startPos == cabinet.hidingPosition.position)
+        {
+            cabinet.OpenDoor();
+        }
+
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            transform.position = Vector3.Lerp(startPos, endPos, t);
+            transform.rotation = Quaternion.Slerp(startRot, endRot, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (isHiding)
+        {
+            playerCamera.fieldOfView = 40f; // Narrow the FOV
+            cameraPivot.localPosition = new Vector3(100, 100, 100); // Move camera deeper into the cabinet
+        }
+
+        transform.position = endPos;
+        transform.rotation = endRot;
+
+        cabinet.CloseDoor();
+    }
+
     #endregion
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Position
+  - Cabinet
   layers:
   - Default
   - TransparentFX
