@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour
     [Header("Interaction Parameters")]
     [SerializeField] private float interactableRange;
     public Cabinet cabinet;
+    public DoorInteraction door;
     public bool isHiding;
     public Transform cabinetExitPosition;
     public bool isInteracting;
@@ -102,6 +104,7 @@ public class PlayerController : MonoBehaviour
             if (!isHiding)
             {
                 TryOpenCabinet();
+                TryOpenDoor();
             }
             else
             {
@@ -206,7 +209,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotation()
     {
-        if(!isHiding)
+        if (!isHiding)
         {
             if (!pauseMenu.isPaused)
             {
@@ -309,7 +312,7 @@ public class PlayerController : MonoBehaviour
             targetVolume = 1.4f;
         }
 
-        if (!playerSFXSource.isPlaying&&!isHiding)
+        if (!playerSFXSource.isPlaying && !isHiding)
         {
             playerSFXSource.clip = footstepSFX;
             playerSFXSource.loop = true;
@@ -385,6 +388,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void TryOpenDoor()
+    {
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, interactableRange))
+        {
+            if (hit.collider.CompareTag("Door"))
+            {
+                door = hit.collider.GetComponent<DoorInteraction>();
+                if (door != null)
+                {
+                    door.ToggleDoor();
+                }
+            }
+        }
+    }
 
     private IEnumerator MoveToCabinetPosition(Transform targetTransform, float duration)
     {
