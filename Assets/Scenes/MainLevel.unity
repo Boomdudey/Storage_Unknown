@@ -52119,6 +52119,63 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1001 &1037001864
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.355282
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0000009536743
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -41.194115
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 532809637729946502, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806367210142904355, guid: ce924c889a5af16418b46b215c74624c, type: 3}
+      propertyPath: m_Name
+      value: Alarm Light
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ce924c889a5af16418b46b215c74624c, type: 3}
 --- !u!43 &1039143442
 Mesh:
   m_ObjectHideFlags: 0
@@ -276472,3 +276529,4 @@ SceneRoots:
   - {fileID: 48876667}
   - {fileID: 2089093198}
   - {fileID: 1300755830}
+  - {fileID: 1037001864}
